@@ -8,18 +8,19 @@ jobs:
   test-lint:
     name: Test and lint
     runs-on: ubuntu-20.04
+
     steps:
       - name: Login in to Docker Hub
-      - name: docker/login-action@v1
-      - with:
-        username: ${{secrets.DOCKERHUB_USER}}
-        password: ${{serrets.DOCKERHUB_TOKEN}}
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Check out - pull repository Code
-        uses: actions/Checkout@v2
+        uses: actions/checkout@v2
 
       - name: Run Test Code
         run: docker-compose run --rm app sh -c 'python manage.py test'
 
       - name: Run Flake8 for LINT Check
-      - run: docker-compose run --rm app sh -c 'flake8'
+        run: docker-compose run --rm app sh -c 'flake8'
