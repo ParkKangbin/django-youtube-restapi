@@ -37,3 +37,50 @@
 
 - 하나의 이미지를 여러 개의 컨테이너로 실행 가능
 - 이미지는 변하지 않지만, 컨테이너는 상태를 가짐
+
+# 📘 CI/CD와 GitHub Actions, PostgreSQL의 장점
+
+## 🔧 CI/CD란?
+
+CI/CD는 **지속적 통합(Continuous Integration)** 과 **지속적 배포(Continuous Deployment)** 의 약자입니다.
+
+- **CI (Continuous Integration)**: 개발자가 코드를 자주 병합(Merge)하고 테스트하는 방식
+- **CD (Continuous Deployment)**: 테스트를 통과한 코드를 자동으로 서버에 배포하는 방식
+
+### ✅ CI/CD의 장점
+- 수동 배포 과정을 자동화하여 **시간 절약**
+- 테스트 자동화로 **버그 조기 발견**
+- 코드 품질 향상 및 팀 생산성 증가
+
+---
+
+## ⚙️ GitHub Actions란?
+
+> GitHub에서 제공하는 **자동화 도구**로, CI/CD를 쉽게 구현할 수 있는 기능입니다.
+
+### ✨ 특징
+- `.github/workflows/*.yml` 파일로 설정
+- 코드 푸시나 PR 시 자동으로 테스트, 빌드, 배포 가능
+- 다양한 오픈소스 액션(Action)을 자유롭게 연결 가능
+
+### 📄 예시 (flake8 테스트 자동화)
+
+```yaml
+name: Lint with flake8
+
+on: [push]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Install dependencies
+        run: |
+          pip install flake8
+      - name: Run flake8
+        run: flake8 .
