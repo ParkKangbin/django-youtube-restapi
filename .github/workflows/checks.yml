@@ -9,7 +9,7 @@ on: [push] # git push 이벤트 활성화 -> 레포지토리에 push를 했을 �
 jobs:
   test-lint:
     name: Test and Lint
-    runs-on: ubuntu-20.04 # 작업 환경
+    runs-on: ubuntu-22.04 # 작업 환경
     steps: # 작업 단계
       # 도커 연결 작업
       - name: Login in to Docker Hub
