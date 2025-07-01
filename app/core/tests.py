@@ -19,13 +19,15 @@ class CommandsTests(SimpleTestCase):
 
 
     @patch('time.sleep')
-    def test_wait_for_db_delay(self, patched_sleep, patched_gettiem):
-        patched_gettiem.side_effect = [Psycopg20perationalError] + \
-            [OperationalError] * 5 + [True]
-        
+    def test_wait_for_db_delay(self, patched_sleep, patched_getitem):
+        mock_conn = MagicMock()
+        mock_conn.cursor.return_value.__enter__.return_value = None  # 커서 mock 처리
+
+        patched_getitem.side_effect = [Psycopg20perationalError] + [OperationalError] * 5 + [mock_conn]
+
         call_command('wait_for_db')
 
-        self.assertEqual(patched_gettiem.call_count,7)
-        
+        self.assertEqual(patched_getitem.call_count, 7)
 
-    #docker-compose run --rm app sh -c 'python manage.py test core'
+
+        #docker-compose run --rm app sh -c 'python manage.py test core'
